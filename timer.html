@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> STOP WATCH TImer</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        .container{
+            background-color: black;
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+        }
+        .watch{
+            width: 300px;
+            height: 300px;
+            background-color: rgb(2, 2, 72);
+            border-radius: 50%;
+            border: 2px solid rgb(82, 82, 226);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        p{
+            font-size: 16px;
+            padding: 16px;
+        }
+        .timing{
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            column-gap: 36px;
+            font-size: 36px;
+        }
+        .btn-grp{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            margin-top: 16px;
+        }
+        button{
+            padding: 12px;
+            border: 1px solid rgb(218, 218, 218);
+            font-size: 16px;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="watch">
+            <p>WATCH</p>
+            <div class="timing">
+                <span id="hr">00</span>
+                <span id="min">00</span>
+                <span id="sec">00</span>
+            </div>
+            <div class="btn-grp">
+                <button id="start-btn"  >START</button>
+                <button id="restart-btn" >RESTART</button>
+                <button id="stop-btn" >STOP</button>
+            </div>
+            <div class="btn-grp">
+                <button id="lap-btn">LAP</button>
+            </div>
+        </div>
+        <ul id="lap-list"></ul>
+    </div>
+    <script>
+        let second = 0;
+        let minutes = 0;
+        let hour = 0;
+        let timer = null;
+        let ui = {
+            sec : document.querySelector("#sec"),
+            min : document.querySelector("#min"),
+            hr : document.querySelector("#hr"),
+            startBtn : document.querySelector("#start-btn"),
+            reStartBtn : document.querySelector("#restart-btn"),
+            stopBtn : document.querySelector("#stop-btn"),
+            lapBtn : document.querySelector("#lap-btn"),
+            lapList : document.querySelector("#lap-list")
+        }
+
+        ui.startBtn.addEventListener("click", () => {
+            runTimer();
+        });
+
+        ui.reStartBtn.addEventListener("click" , () => {
+            restartTimer();
+        });
+
+
+        ui.stopBtn.addEventListener("click", () => {
+            stopTimer();
+        });
+
+        ui.lapBtn.addEventListener("click", () => {
+            addLap();
+        });
+        
+        const runTimer = () => {
+            if(timer) return;
+            timer = setInterval(() => {
+                second+=1;
+                if(second === 60){
+                    minutes++;
+                    second=0;
+                }
+                if(minutes === 60 ){
+                    hour++;
+                    minutes = 0;
+                }
+                if(hour === 24 ){
+                    hour = 0;
+                }
+                renderUI();
+            }, 10)
+        };
+
+        const stopTimer = () => {
+            if(timer){
+                clearInterval(timer);
+                timer = null;
+            }
+        }
+
+        const restartTimer = () => {
+            stopTimer();
+            second = 0;
+            minutes = 0;
+            hour = 0;
+            renderUI();
+            runTimer();
+        }
+
+
+        const FormatTime = (time) => {
+            return time < 10 ? `0${time}` : time;
+        }
+
+        const renderUI = () => {
+            ui.sec.innerHTML = FormatTime(second);
+            ui.min.innerHTML = FormatTime(minutes);
+            ui.hr.innerHTML = FormatTime(hour);
+        }
+    
+        const addLap = () => {
+            const li = document.createElement("li");
+            const count = ui.lapList.childElementCount;
+            li.innerHTML = `LAP TIME ${count+1} =  ${FormatTime(hour)}:${ FormatTime(minutes)}:${ FormatTime(second)}`
+            ui.lapList.prepend(li);
+        }
+    
+    </script>
+</body>
+</html>

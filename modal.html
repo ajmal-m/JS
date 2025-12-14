@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Modal Popup</title>
+  <style>
+    body {
+  font-family: Arial;
+}
+
+button {
+  padding: 10px 16px;
+  font-size: 16px;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  background: #fff;
+  padding: 20px;
+  width: 300px;
+  border-radius: 8px;
+  position: relative;
+  animation: scaleIn 0.3s ease;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+  </style>
+</head>
+<body>
+
+  <button id="openModal">Open Modal</button>
+
+  <div class="overlay hidden" id="overlay">
+    <div class="modal">
+      <button class="close">&times;</button>
+      <h2>Modal Title</h2>
+      <p>This is a modal popup.</p>
+    </div>
+  </div>
+
+  <script>
+    const openBtn = document.getElementById("openModal");
+const overlay = document.getElementById("overlay");
+const closeBtn = document.querySelector(".close");
+
+const openModal = () => {
+  overlay.classList.remove("hidden");
+  document.body.style.overflow = "hidden";
+};
+
+const closeModal = () => {
+  overlay.classList.add("hidden");
+  document.body.style.overflow = "";
+};
+
+openBtn.addEventListener("click", openModal);
+closeBtn.addEventListener("click", closeModal);
+
+overlay.addEventListener("click", (e) => {
+  if (e.target === overlay) closeModal();
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeModal();
+});
+
+  </script>
+</body>
+</html>

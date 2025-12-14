@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Drag and Drop Task Board</title>
+  <style>
+    body {
+  font-family: Arial;
+  display: flex;
+  justify-content: center;
+  margin: 40px;
+}
+
+.board {
+  display: flex;
+  gap: 40px;
+}
+
+.column {
+  width: 200px;
+  background: #f0f0f0;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.column h3 {
+  text-align: center;
+}
+
+.task-list {
+  list-style: none;
+  padding: 0;
+  min-height: 200px;
+}
+
+.task-list li {
+  background: white;
+  margin: 6px 0;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: grab;
+}
+
+.column.drag-over {
+  background-color: #d0f0d0;
+}
+
+  </style>
+</head>
+<body>
+  <div class="board">
+    <div class="column" id="todo">
+      <h3>To Do (<span id="todo-count">0</span>)</h3>
+      <ul class="task-list">
+        <li draggable="true">Task 1</li>
+        <li draggable="true">Task 2</li>
+        <li draggable="true">Task 3</li>
+
+      </ul>
+    </div>
+    <div class="column" id="done">
+      <h3>Done (<span id="done-count">0</span>)</h3>
+      <ul class="task-list"></ul>
+    </div>
+  </div>
+
+  <script>
+    let dargItem =null;
+    const columns = document.querySelectorAll(".column");
+
+    document.addEventListener("dragstart", (e)=> {
+        if(e.target.tagName === "LI"){
+            dargItem = e.target;
+            e.dataTransfer.effectAllowed = 'move';
+        }
+    });
+
+
+    document.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        if(e.target.classList.contains("task-list")){
+             e.target.parentElement.classList.add("drag-over");
+        }
+    });
+
+
+    document.addEventListener("dragleave", (e) => {
+        if(e.target.classList.contains("task-list")){
+            console.log("Drag leave")
+            e.target.parentElement.classList.remove("drag-over")
+        }
+    });
+
+
+    document.addEventListener("drop", (e) => {
+        e.preventDefault();
+        if(e.target.classList.contains("task-list")){
+            e.target.appendChild(dargItem);
+            columns.forEach((col) => updateColumn(col));
+            e.target.parentElement.classList.remove("drag-over")
+        }
+    });
+
+    const updateColumn = (column) => {
+        const count = column.querySelectorAll("li").length;
+        column.querySelector('span').textContent = count;
+    }
+  </script>
+</body>
+</html>

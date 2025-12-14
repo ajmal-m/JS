@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXT JS APPLICATION</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        body{
+            background-color: black;
+        }
+        .container{
+            width: 100vw;
+            height: 100vh;
+            padding: 16px;
+            background-color: rgb(74, 12, 133);
+            overflow-y: auto;
+            display: grid;
+            grid-template-columns: repeat(10, 150px);
+            grid-auto-rows:100px;
+            row-gap:8px;
+            column-gap: 8px;
+            justify-content: center;
+            grid-auto-flow: dense;
+        }
+       .grid-container{
+        background-color: rgb(0, 13, 13);
+        color: white;
+        text-align: center;
+        padding: 12px;
+       }
+    </style>
+    
+</head>
+<body>
+    <div class="container">
+    </div>
+     <script>
+      for(let i=0; i< 100; i++){
+        const container = document.getElementsByClassName("container")[0];
+        const div = document.createElement("div");
+        const img = document.createElement("img");
+        img.src="https://hips.hearstapps.com/hmg-prod/images/apple-royalty-free-image-1745874889.pjpeg?crop=0.88889xw:1xh;center,top&resize=1200:*";
+        img.style.width = '100%'
+        img.style.height='100%'
+        div.appendChild(img);
+        div.classList.add("grid-container");
+        container.appendChild(div);
+      }
+    </script>
+</body>
+</html>

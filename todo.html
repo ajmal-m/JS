@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        .container{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            height: 100vh;
+            background-color: black;
+            color: white;
+        }
+        .task-inp{
+            background-color: rgb(53, 87, 53);
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            min-width: 200px;
+        }
+        button{
+            background-color: rgb(53, 87, 53);
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+        }
+        .inp-controler{
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+        }
+        .task-list{
+            color: white;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        li{
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 23px;
+        }
+        .line-through{
+            text-decoration: line-through;
+        }
+        .span-text{
+            font-size: 29px;
+        }
+        #total-count{
+            font-size: 18px;
+        }
+        #completed-count{
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="inp-controler">
+           <form onsubmit="submitTask(event)">
+                <input type="text" name="task" id="task" class="task-inp">
+                <button type="submit">Add Task</button>
+           </form>
+        </div>
+        <ul class="task-list"></ul>
+        <div>
+            <p id="total-count">Total Count : 0</p>
+            <p id="completed-count">
+                Completed Count : 0
+            </p>
+        </div>
+    </div>
+    <script>
+        let totalTask = 0;
+        let completedTask = 0;
+
+        const elements = {
+            ul: document.querySelector('.task-list'),
+            totalCount: document.querySelector('#total-count'),
+            completedCount : document.querySelector('#completed-count'),
+            input : document.querySelector(".task-inp")
+        }
+
+        elements.ul.addEventListener('click' , (element) => {
+            const li = element.target.closest("li");
+            const span = li.querySelector('span');
+
+            if(element.target.classList.contains('complete-btn')){
+               if(!span.classList.contains('line-through')){
+                    span.classList.add("line-through");
+                    completedTask++;
+               }
+            }else if(element.target.classList.contains('delete-btn') ){
+                if(span.classList.contains("line-through")){
+                    completedTask--;
+                }
+                totalTask--;
+                li.remove();
+            }
+            setCount();
+        })
+
+        const submitTask = (e) => {
+            e.preventDefault()
+            const task = elements.input.value;
+            if( !task || !task.trim() ) return;
+            const li = document.createElement("li");
+            li.innerHTML = `
+                <span>${task}</span>
+                <button class="complete-btn">Complete</button>
+                <button class="delete-btn">Delete</button>
+            `
+            elements.ul.append(li);
+            elements.input.value ='';
+            totalTask++;
+            setCount();
+        }
+        
+        const setCount = () => {
+           elements.totalCount.innerHTML = `Total Count : ${totalTask}`;
+           elements.completedCount.innerHTML = `Completed Count : ${completedTask}`;
+        }
+    </script>
+</body>
+</html>

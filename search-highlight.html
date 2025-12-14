@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Search Highlight</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<style>
+  .highlight-text{
+    color: rgb(230, 0, 0);
+  }
+</style>
+<body>
+  <div class="container">
+    <input type="text" id="search" placeholder="Search text..."  />
+    <p id="text">
+      JavaScript is a programming language. JavaScript is widely used in web development.
+    </p>
+    <p id="count"></p>
+  </div>
+
+  <script>
+    const searchInp = document.querySelector("#search");
+    const textPara = document.querySelector("#text");
+    let originalText = textPara.innerHTML;
+    let timer = null;
+    searchInp.addEventListener("input", (ele) => {
+      if(timer) clearTimeout(timer);
+      timer = setTimeout(() => {
+        if(! ele.target.value.trim()) {
+          textPara.innerHTML = originalText;
+          document.querySelector("#count").innerHTML='';
+          return
+        };
+        const val = ele.target.value;
+        const text = textPara.innerHTML;
+        textPara.innerHTML = originalText.replace(
+            new RegExp(`${val}`, 'ig'),
+            `<span class='highlight-text'>${val}</span>`
+          );
+
+
+        const matches = originalText.match(new RegExp(`${val}`, 'ig')) || [];
+        document.querySelector("#count").innerHTML = `Count : ${ ( matches).length}`
+      }, 500);
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Star Rating</title>
+  <style>
+    body {
+  font-family: Arial;
+  padding: 40px;
+}
+
+.rating span {
+  font-size: 40px;
+  cursor: pointer;
+  color: #ccc;
+}
+
+.rating span.active {
+  color: gold;
+}
+
+  </style>
+</head>
+<body>
+
+  <div class="rating" id="rating">
+    <span data-value="1">★</span>
+    <span data-value="2">★</span>
+    <span data-value="3">★</span>
+    <span data-value="4">★</span>
+    <span data-value="5">★</span>
+  </div>
+
+  <p id="result">You rated 0 stars</p>
+
+  <script>
+    const rating = document.getElementById("rating");
+const result = document.getElementById("result");
+
+let selectedRating = 0;
+
+rating.addEventListener("mouseover", (e) => {
+  if (!e.target.dataset.value) return;
+  highlight(e.target.dataset.value);
+});
+
+rating.addEventListener("click", (e) => {
+  if (!e.target.dataset.value) return;
+  selectedRating = e.target.dataset.value;
+  highlight(selectedRating);
+  result.textContent = `You rated ${selectedRating} stars`;
+});
+
+rating.addEventListener("mouseleave", () => {
+  highlight(selectedRating);
+});
+
+function highlight(count) {
+  [...rating.children].forEach(star => {
+     star.classList.toggle(
+            "active",
+            star.dataset.value <= count
+         );
+  });
+}
+
+  </script>
+</body>
+</html>

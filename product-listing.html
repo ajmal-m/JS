@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Product Filter</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+.controls { margin-bottom: 20px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+.card { background: #f0f0f0; padding: 10px; border-radius: 6px; }
+.no-products { text-align: center; font-weight: bold; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <div class="controls">
+    <input type="text" id="search" placeholder="Search products..." />
+    <select id="category">
+      <option value="All">All</option>
+      <option value="Electronics">Electronics</option>
+      <option value="Clothing">Clothing</option>
+      <option value="Books">Books</option>
+    </select>
+  </div>
+
+  <div id="product-grid" class="grid"></div>
+
+  <script>
+    const products = [
+        { name: "iPhone 13", category: "Electronics", price: 999 },
+        { name: "MacBook Pro", category: "Electronics", price: 1999 },
+        { name: "T-shirt", category: "Clothing", price: 20 },
+        { name: "Jeans", category: "Clothing", price: 50 },
+        { name: "Harry Potter", category: "Books", price: 15 },
+        { name: "Kindle", category: "Electronics", price: 120 },
+        { name: "Dress", category: "Clothing", price: 80 },
+        { name: "Notebook", category: "Books", price: 5 },
+    ];
+
+    const categorySelector = document.querySelector("#category");
+    const productGrid = document.querySelector("#product-grid");
+    const searchInp = document.querySelector("#search");
+
+    const renderUI = (filteredProducts) => {
+        productGrid.innerHTML="";
+        if(filteredProducts.length === 0){
+            productGrid.innerHTML= `<div class="no-products">No products found</div>`;
+            return;
+        }
+        filteredProducts.forEach(product => {
+            const card = document.createElement("div");
+            card.classList.add("card");
+            card.innerHTML=`
+                <h4>${product.name}</h4>
+                <p>Category: ${product.category}</p>
+                <p>Price: $${product.price}</p>
+            `
+            productGrid.appendChild(card)
+        });
+    };
+
+
+    const filterProducts = () => {
+        const searchVal = searchInp.value.toLowerCase();
+        const categoryVal = categorySelector.value;
+
+        const filtered = products.filter((pro) => {
+            const matchName = pro.name.toLowerCase().includes(searchVal);
+            const categoryMatch =  categoryVal === 'All' || pro.category === categoryVal;
+            return (matchName && categoryMatch)
+        });
+
+        renderUI(filtered)
+    }
+
+
+    searchInp.addEventListener("input", () => {
+        filterProducts()
+
+    });
+
+
+    categorySelector.addEventListener("change", (e) => {
+        filterProducts()
+    })
+
+    renderUI(products)
+
+  </script>
+</body>
+</html>

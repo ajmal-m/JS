@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Autocomplete</title>
+  <style>
+    body {
+  font-family: Arial;
+  padding: 40px;
+}
+
+.autocomplete {
+  width: 300px;
+  position: relative;
+}
+
+#search {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #ccc;
+  position: absolute;
+  width: 100%;
+  background: white;
+}
+
+li {
+  padding: 8px;
+  cursor: pointer;
+}
+
+li:hover {
+  background: #f0f0f0;
+}
+
+.highlight {
+  color: red;
+}
+
+  </style>
+</head>
+<body>
+
+  <div class="autocomplete">
+    <input type="text" id="search" placeholder="Search..." />
+    <ul id="list"></ul>
+  </div>
+
+  <script>
+    const data = [
+  "JavaScript", "Java", "Python", "C", "C++",
+  "React", "Angular", "Vue", "NodeJS"
+];
+
+const input = document.getElementById("search");
+const list = document.getElementById("list");
+
+let timer = null;
+
+input.addEventListener("input", () => {
+  clearTimeout(timer);
+
+  timer = setTimeout(() => {
+    const value = input.value.toLowerCase();
+    list.innerHTML = "";
+
+    if (!value) return;
+
+    const matches = data.filter(item =>
+      item.toLowerCase().includes(value)
+    );
+
+    if (matches.length === 0) {
+      list.innerHTML = `<li>No results found</li>`;
+      return;
+    }
+
+    matches.forEach(item => {
+      const li = document.createElement("li");
+      li.innerHTML = item.replace(
+        new RegExp(value, "i"),
+        `<span class="highlight">$&</span>`
+      );
+
+      li.addEventListener("click", () => {
+        input.value = item;
+        list.innerHTML = "";
+      });
+
+      list.appendChild(li);
+    });
+  }, 300);
+});
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Accordion</title>
+  <style>
+    body {
+  font-family: Arial;
+  background: #f4f4f4;
+  padding: 20px;
+}
+
+.accordion {
+  max-width: 500px;
+  margin: auto;
+}
+
+.item {
+  background: #fff;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.question {
+  padding: 15px;
+  cursor: pointer;
+  background: #222;
+  color: #fff;
+}
+
+.answer {
+  padding: 0 15px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.item.active .answer {
+  max-height: 100px;
+}
+
+  </style>
+</head>
+<body>
+
+  <div class="accordion">
+    <div class="item">
+      <h3 class="question">What is JavaScript?</h3>
+      <p class="answer">JavaScript is a programming language used for web development.</p>
+    </div>
+
+    <div class="item">
+      <h3 class="question">What is Event Delegation?</h3>
+      <p class="answer">Event delegation uses bubbling to handle events efficiently.</p>
+    </div>
+
+    <div class="item">
+      <h3 class="question">What is Closure?</h3>
+      <p class="answer">A closure allows access to outer scope variables.</p>
+    </div>
+
+    <div class="item">
+      <h3 class="question">What is DOM?</h3>
+      <p class="answer">DOM represents the structure of an HTML document.</p>
+    </div>
+  </div>
+
+  <script>
+    const accordion = document.querySelector(".accordion");
+
+    accordion.addEventListener("click", (e) => {
+        const questionItem = e.target.classList.contains('question');
+        if(!questionItem)return;
+        const closeItem =  e.target.parentElement;
+        document.querySelectorAll(".item").forEach((p) => {
+            if(p !== closeItem ){
+                p.classList.remove("active")
+            }
+        });
+        closeItem.classList.toggle("active")
+    });
+  </script>
+</body>
+</html>

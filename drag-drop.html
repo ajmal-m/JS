@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        li {
+  padding: 12px;
+  margin: 4px 0;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  cursor: move;
+}
+
+.drag-over {
+  border: 2px dashed #000;
+}
+
+    </style>
+</head>
+<body>
+    <ul id="draggable-list">
+  <li draggable="true">Item 1</li>
+  <li draggable="true">Item 2</li>
+  <li draggable="true">Item 3</li>
+  <li draggable="true">Item 4</li>
+</ul>
+
+<script>
+    const list = document.getElementById("draggable-list");
+let draggedItem = null;
+
+list.addEventListener("dragstart", (e) => {
+  draggedItem = e.target;
+});
+
+list.addEventListener("dragover", (e) => {
+  e.preventDefault(); // Necessary to allow drop
+  const target = e.target;
+  if(target && target !== draggedItem && target.nodeName === "LI"){
+    target.classList.add("drag-over");
+  }
+});
+
+list.addEventListener("dragleave", (e) => {
+  e.target.classList.remove("drag-over");
+});
+
+list.addEventListener("drop", (e) => {
+  e.preventDefault();
+  const target = e.target;
+  if(target && target !== draggedItem && target.nodeName === "LI"){
+    target.classList.remove("drag-over");
+    list.insertBefore(draggedItem, target);
+  }
+});
+
+</script>
+</body>
+</html>

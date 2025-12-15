@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Undo Redo Editor</title>
+</head>
+<body>
+  <textarea id="editor" rows="6" cols="40"></textarea>
+  <br /><br />
+  <button id="undo">Undo</button>
+  <button id="redo">Redo</button>
+
+  <script>
+    const undoBtn = document.querySelector("#undo");
+    const redoBtn = document.querySelector("#redo");
+    const textInp = document.querySelector("#editor");
+    let undoStack = [""]; // Back
+    let redoStack = []; // Forward
+
+    textInp.addEventListener("input", (e) => {
+        redoStack=[];
+        undoStack.push(e.target.value);
+    });
+
+    undoBtn.addEventListener("click", (e) => {
+        console.log(undoStack)
+        if(undoStack.length <= 1) return;
+        const currentText = undoStack.pop();
+        redoStack.push(currentText);
+        textInp.value = undoStack[undoStack.length-1];
+    });
+
+     redoBtn.addEventListener("click", (e) => {
+        if(!redoStack.length) return;
+        const redoState = redoStack.pop();
+        undoStack.push(redoState);
+        textInp.value = redoState;
+    });
+
+  </script>
+</body>
+</html>

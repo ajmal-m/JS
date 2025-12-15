@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auto Logout Timer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      background-color: #f0f0f0;
+      text-align: center;
+    }
+
+    #status {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: green;
+    }
+
+    #timer {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 12px 24px;
+      margin: 0 10px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 6px;
+      border: 1px solid #888;
+      background-color: #fff;
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      background-color: #ccc;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="status">You are Active</div>
+  <p id="timer">10</p>
+
+  <button id="reset">Reset Timer</button>
+  <button id="logout">Logout Now</button>
+
+  <script>
+    const status = document.getElementById("status");
+const timerDisplay = document.getElementById("timer");
+const resetBtn = document.getElementById("reset");
+const logoutBtn = document.getElementById("logout");
+
+let timeLeft = 10; // seconds
+let timer = null;
+let loggedOut = false;
+
+// Start the countdown timer
+function startTimer() {
+  clearInterval(timer);
+  timer = setInterval(() => {
+    if (loggedOut) return;
+    
+    timeLeft--;
+    timerDisplay.textContent = timeLeft;
+
+    if (timeLeft <= 0) {
+      logout();
+    }
+  }, 1000);
+}
+
+// Reset timer on user activity
+function resetTimer() {
+  if (loggedOut) return;
+  timeLeft = 10;
+  timerDisplay.textContent = timeLeft;
+  status.textContent = "You are Active";
+  status.style.color = "green";
+}
+
+// Logout function
+function logout() {
+  loggedOut = true;
+  clearInterval(timer);
+  status.textContent = "Logged Out due to inactivity!";
+  status.style.color = "red";
+  timerDisplay.textContent = "0";
+  resetBtn.disabled = true;
+  logoutBtn.disabled = true;
+}
+
+// Button events
+resetBtn.addEventListener("click", resetTimer);
+logoutBtn.addEventListener("click", logout);
+
+// Detect user activity
+["mousemove", "keydown", "click"].forEach(event => {
+  document.addEventListener(event, resetTimer);
+});
+
+// Initialize
+timerDisplay.textContent = timeLeft;
+startTimer();
+
+  </script>
+</body>
+</html>

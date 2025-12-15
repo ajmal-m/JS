@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Theme Toggle</title>
+  <style>
+    :root {
+  --bg: #ffffff;
+  --text: #000000;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial;
+  padding: 40px;
+  transition: background 0.3s, color 0.3s;
+}
+
+.dark {
+  --bg: #121212;
+  --text: #ffffff;
+}
+
+  </style>
+</head>
+<body>
+  <button id="themeBtn">Switch Theme</button>
+  <p id="label">Light Mode</p>
+
+  <script>
+    const btn = document.getElementById("themeBtn");
+    const label = document.getElementById("label");
+    const body = document.body;
+
+
+    const setTheme = (theme) => {
+        body.classList.toggle("dark", theme === 'dark');
+        label.innerHTML = theme === "dark" ? "Dark Mode" :"Light Mode";
+        localStorage.setItem("theme", theme);
+    }
+
+    btn.addEventListener("click", () => {
+        if( body.classList.contains("dark") ){
+            setTheme("light");
+        }else{
+           setTheme("dark");
+        }
+    });
+
+
+    const currentTheme = localStorage.getItem("theme") || "light";
+
+    setTheme(currentTheme)
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Multi Step Form</title>
+  <style>
+    .step {
+        display: none;
+    }
+
+    .step.active {
+        display: block;
+    }
+
+    .buttons {
+        margin-top: 20px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <h3 id="stepTitle">Step 1 of 3</h3>
+
+  <form id="form">
+
+    <div class="step active">
+      <input type="text" id="name" placeholder="Name" required />
+    </div>
+
+    <div class="step">
+      <input type="email" id="email" placeholder="Email" required />
+    </div>
+
+    <div class="step">
+      <input type="password" id="password" placeholder="Password" required />
+    </div>
+
+    <div class="buttons">
+      <button type="button" id="back">Back</button>
+      <button type="button" id="next">Next</button>
+      <button type="submit" id="submit">Submit</button>
+    </div>
+
+  </form>
+
+  <script>
+    const steps = document.querySelectorAll(".step");
+    const nextBtn = document.getElementById("next");
+    const backBtn = document.getElementById("back");
+    const submitBtn = document.getElementById("submit");
+    const title = document.getElementById("stepTitle");
+
+    let currentStep = 0;
+
+    const updateUI = () => {
+        steps.forEach( (step, index) => {
+            step.classList.toggle("active", index === currentStep);
+        });
+        title.innerHTML = `Step ${currentStep+1} of ${steps.length}`;
+        backBtn.disabled  = currentStep === 0;
+        nextBtn.style.display = currentStep === steps.length-1 ? 'none' :'inline';
+    }
+
+    nextBtn.addEventListener("click", () => {
+        const currVal = steps[currentStep].querySelector("input").value;
+        if(! currVal.trim()){
+            alert("Please fill the field");
+            return;
+        }
+        currentStep++;
+        updateUI();
+    });
+
+    backBtn.addEventListener("click", () => {
+        currentStep--;
+        updateUI();
+
+    });
+
+    document.getElementById("form").addEventListener("submit", (e) => {
+        e.preventDefault();
+         alert("Form submitted successfully!");
+    });
+  </script>
+</body>
+</html>

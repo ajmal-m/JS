@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Infinite Scroll</title>
+  <style>
+    body {
+        font-family: Arial;
+        padding: 20px;
+    }
+
+    li {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    #loading {
+        text-align: center;
+        display: none;
+    }
+
+  </style>
+</head>
+<body>
+
+  <ul id="list"></ul>
+  <p id="loading">Loading...</p>
+
+  <script>
+    const list = document.getElementById("list");
+    const loading = document.getElementById("loading");
+
+    let count = 0;
+    let isLoading = false;
+    const MAX = 100;
+
+    function loadItems(limit = 10) {
+        if(count >= MAX) loading.style.display = "none";
+    if (isLoading || count >= MAX) {
+        return
+    };
+
+    isLoading = true;
+    loading.style.display = "block";
+
+    setTimeout(() => {
+        for (let i = 0; i < limit && count < MAX; i++) {
+        count++;
+        const li = document.createElement("li");
+            li.textContent = `Item ${count}`;
+            list.appendChild(li);
+        }
+        isLoading = false;
+    }, 800);
+    }
+
+    const observer = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting) {
+            console.log(entries[0].target)
+        }
+    });
+
+    observer.observe(loading);
+
+    // Initial load
+    loadItems(20);
+
+  </script>
+</body>
+</html>

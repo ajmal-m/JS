@@ -83,10 +83,11 @@ input.addEventListener("input", () => {
 
     matches.forEach(item => {
       const li = document.createElement("li");
+      
       li.innerHTML = item.replace(
         new RegExp(value, "i"),
         `<span class="highlight">$&</span>`
-      );
+      )
 
       li.addEventListener("click", () => {
         input.value = item;

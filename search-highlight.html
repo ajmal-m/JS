@@ -35,12 +35,12 @@
         const val = ele.target.value;
         const text = textPara.innerHTML;
         textPara.innerHTML = originalText.replace(
-            new RegExp(`${val}`, 'ig'),
-            `<span class='highlight-text'>${val}</span>`
+            new RegExp(val, 'ig'),
+            `<span class='highlight-text'>$&</span>`
           );
 
 
-        const matches = originalText.match(new RegExp(`${val}`, 'ig')) || [];
+        const matches = originalText.match(new RegExp(val, 'ig')) || [];
         document.querySelector("#count").innerHTML = `Count : ${ ( matches).length}`
       }, 500);
     })

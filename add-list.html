@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        
+    </style>
+</head>
+<body>
+    <input type="text" id="itemInput" placeholder="Enter item" />
+    <button id="addBtn">Add</button>
+    <button id="removeBtn">Remove Last</button>
+
+    <ul id="itemList"></ul>
+
+    <script>
+        const itemInput = document.querySelector("#itemInput");
+        const addBtn = document.querySelector("#addBtn");
+        const removeBtn = document.querySelector("#removeBtn");
+        const listItem = document.querySelector("#itemList");
+        addBtn.addEventListener("click", (e) => {
+            const val =itemInput.value.trim();
+            if(!val) return;
+            const li = document.createElement("li");
+            li.textContent = val;
+            listItem.appendChild(li);
+            itemInput.value = '';
+        });
+
+        removeBtn.addEventListener("click" , (e) => {
+            listItem.lastChild?.remove();
+        });
+    </script>
+</body>
+</html>

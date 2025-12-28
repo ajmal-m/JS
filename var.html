@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            transition: all 300ms linear;
+        }
+        :root{
+            --text : white;
+            --bg: red;
+        }
+        [data-theme="dark"]{
+            --bg:black;
+            --text:white;
+        }
+        .container{
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--bg);
+            color: var(--text);
+            padding: 16px;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hello World</h1>
+        <button id="btn">Theme Toggler</button>
+    </div>
+    <script>
+        const btn = document.querySelector("#btn");
+        btn.addEventListener("click", () => {
+            if( document.documentElement.dataset["theme"] === "dark" ){
+                document.documentElement.dataset["theme"] = "light";
+            }else{
+                document.documentElement.dataset["theme"] = "dark";
+            }
+        });
+    </script>
+</body>
+</html>

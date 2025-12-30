@@ -20,9 +20,9 @@
             height: 100vh;
         }
         .play-ground{
-            width: 900px;
+            width: 90vw;
             aspect-ratio: 16/9;
-            /* background-image: url('https://diamondfootball.com/news/birds-eye-view-of-a-football-pitch.jpg'); */
+            background-image: url('https://diamondfootball.com/news/birds-eye-view-of-a-football-pitch.jpg');
             background-color: rgb(110, 246, 162);
             background-size: contain;
             overflow: hidden;
@@ -37,6 +37,7 @@
             width: 20px;
             aspect-ratio: 1/5;
             background-color: rgb(139 3 2);
+            border-radius: 0px 63px 63px 0px;
         }
         .bg-green{
             background-color: green;
@@ -77,7 +78,7 @@
             setInterval(() => {
                 moveBall();
                 setBallCordinate();
-            }, 40);
+            }, 50);
         };
 
         initMovement();
@@ -169,9 +170,9 @@
                 y1 : ballBounary.top + ballBounary.height,
                 y2 : ballBounary.top 
             };
-            const yCondition = ( BALL_POSITION.y1 <= PAD_POSITION.y1 && BALL_POSITION.y1 <= PAD_POSITION.y2) 
+            const yCondition = ( BALL_POSITION.y1 <= PAD_POSITION.y1 && PAD_POSITION.y2 <= BALL_POSITION.y2) 
                 ||
-                ( BALL_POSITION.y2 <= PAD_POSITION.y1 && BALL_POSITION.y2 >= PAD_POSITION.y2 );
+                ( BALL_POSITION.y2 <= PAD_POSITION.y1 && PAD_POSITION.y2 <= BALL_POSITION.y2 );
             
             
             const xCondition = (BALL_POSITION.x1 <= PAD_POSITION.x2)

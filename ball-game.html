@@ -31,15 +31,23 @@
             aspect-ratio: 1/1;
             transform: translate(10px, 10px);
         }
+        .touch-pad{
+            width: 20px;
+            aspect-ratio: 1/5;
+            background-color: rgb(139 3 2);
+        }
     </style>
 </head>
 <body>
     <div class="play-ground">
         <img class="foot-ball" src="https://cdn-icons-png.flaticon.com/128/1165/1165187.png" alt="" srcset="">
+        <div class="touch-pad"></div>
     </div>
     <script>
         let ball = document.querySelector(".foot-ball");
-        let playGround = document.querySelector(".play-ground")
+        let playGround = document.querySelector(".play-ground");
+        const touchPad = document.querySelector(".touch-pad");
+        let padPositionY = 0;
         let cordinates = {
             x:10,
             y:10,
@@ -47,6 +55,7 @@
         let X_VELOCITY = 20;
         let Y_VELOCITY = 20;
         let degree = 10;
+                    let delte = 2;
 
         const moveBall = () => {
             ball.style.transform = `translate(${cordinates.x}px, ${cordinates.y}px) rotate(${degree}deg)`
@@ -56,7 +65,7 @@
             setInterval(() => {
                 moveBall();
                 setBallCordinate();
-            }, 100);
+            }, 40);
         };
 
         initMovement();
@@ -115,8 +124,24 @@
 
         };
 
+
+        const accelerateMoveDown = () => {
+            touchPad.style.transform = `translateY(${padPositionY}px)`;
+            padPositionY+=10;
+        }
+
+        
+        const accelerateMoveUp = () => {
+            touchPad.style.transform = `translateY(${padPositionY}px)`;
+            padPositionY-=10;
+        }
         window.addEventListener("keydown", (e) => {
-            console.log(e.key)
+            if( e.key === 'ArrowDown'){
+                accelerateMoveDown();
+            }
+            if(e.key === 'ArrowUp'){
+                accelerateMoveUp();
+            }
         })
     </script>
 </body>

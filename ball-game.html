@@ -23,6 +23,7 @@
             /* background-image: url('https://diamondfootball.com/news/birds-eye-view-of-a-football-pitch.jpg'); */
             background-color: rgb(133, 255, 133);
             background-size: contain;
+            overflow: hidden;
         }
         .foot-ball{
             color: white;
@@ -35,5 +36,20 @@
     <div class="play-ground">
         <img class="foot-ball" src="https://cdn-icons-png.flaticon.com/128/1165/1165187.png" alt="" srcset="">
     </div>
+    <script>
+        let ball = document.querySelector(".foot-ball");
+        let start = 10;
+        let degree = 0;
+        let moveStart = () => {
+            setInterval(() => {
+                ball.style.transform = `translateX(${start}px) rotate(${degree}deg)`
+                start++;
+                degree+=10;
+            },400)
+        };
+        setInterval(() => {
+            moveStart();
+        },300)
+    </script>
 </body>
 </html>

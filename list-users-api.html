@@ -21,6 +21,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 8px;
+            margin-top: 12px;
         }
         .card{
             min-width: 200px;
@@ -72,6 +73,11 @@
             color: black;
             padding: 8px 12px;
         }
+        input{
+            padding: 4px 8px;
+            outline: none;
+            border: none;
+        }
     </style>
 </head>
 <body>
@@ -81,11 +87,8 @@
         <div class="modal-container">
         </div>
     </div>
-
-    <div>
-        <input type="text" name="search" id="search">
-    </div>
     <div class="container">
+        <input type="text" name="search" id="search-inp" placeholder="Search Items">
         <div class="card-container">
            
         </div>
@@ -96,18 +99,24 @@
         const cardContainer = document.querySelector(".card-container");
         const popUpContainer = document.querySelector("#pop-up-container");
         const cancelBtn = document.querySelector(".cancel-btn");
+        const searchInp = document.querySelector("#search-inp");
+
         const url = 'https://jsonplaceholder.typicode.com/users';
         let currentUsers ;
+        let filteredUsers;
         let selectedUser;
+        let timer = null;
 
         const fetchUsers = async () => {
             const response = await fetch(url);
             const data = await response.json();
             currentUsers = data;
-           listUsers(data);
+            filteredUsers = data;
+            listUsers(data);
         }
 
         const listUsers = (users) => {
+            cardContainer.innerHTML = "";
             users.forEach( (user , index) => {
                 cardContainer.innerHTML += Card(user , index)
             });
@@ -180,6 +189,19 @@
             closePopUpModal();
         });
 
+        searchInp.addEventListener("input", (e) => {
+            if(timer) clearTimeout(timer);
+            timer = setTimeout(() => {
+                const searchQuery = e.target.value;
+                filteredUsers = currentUsers.filter((user) => {
+                    const name = user.name.toLowerCase().includes(searchQuery.toLowerCase());
+                    const username = user.username.toLowerCase().includes(searchQuery.toLowerCase());
+                    const email = user.email.toLowerCase().includes(searchQuery.toLowerCase());
+                    return ( name || username || email) ;
+                });
+                listUsers(filteredUsers);
+            }, 500);
+        })
 
 
         const openPopUPModal = () => {

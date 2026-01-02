@@ -78,6 +78,10 @@
             outline: none;
             border: none;
         }
+        .empty-container{
+            color: white;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -92,6 +96,10 @@
         <div class="card-container">
            
         </div>
+
+        <div class="empty-container hide">
+            <h1>Empty </h1>
+        </div>
     </div>
 
 
@@ -100,6 +108,7 @@
         const popUpContainer = document.querySelector("#pop-up-container");
         const cancelBtn = document.querySelector(".cancel-btn");
         const searchInp = document.querySelector("#search-inp");
+        const emptyContainer = document.querySelector(".empty-container");
 
         const url = 'https://jsonplaceholder.typicode.com/users';
         let currentUsers ;
@@ -117,9 +126,14 @@
 
         const listUsers = (users) => {
             cardContainer.innerHTML = "";
-            users.forEach( (user , index) => {
-                cardContainer.innerHTML += Card(user , index)
-            });
+            if(users.length){
+                hideEmpty();
+                users.forEach( (user , index) => {
+                    cardContainer.innerHTML += Card(user , index)
+                });
+            }else{
+                showEmpty();
+            }
         }
 
         const Card = (user , index) => {
@@ -213,6 +227,13 @@
             popUpContainer.classList.add("hide");
         };
 
+        const showEmpty = () => {
+            emptyContainer.classList.remove('hide');
+        };
+
+        const hideEmpty = () => {
+            emptyContainer.classList.add('hide');
+        };
         fetchUsers();
 
 

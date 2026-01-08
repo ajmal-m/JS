@@ -1,3 +1,5 @@
+// Only for Sorted Arrays
+// Time Complexity : O(log n)T
 const BinarySearch = (arr, target) => {
     let start = 0;
     let end = arr.length-1;
